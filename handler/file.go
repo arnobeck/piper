@@ -121,7 +121,9 @@ func (h *FileHandler) Size() uint64 {
 
 // ExpirationTime returns modified time of the file
 func (h *FileHandler) ExpirationTime() int64 {
-	return h.etime
+	fi, _ := os.Stat(h.path)
+	return fi.ModTime().Unix()
+	// return h.etime
 }
 
 // Close closes logging file
