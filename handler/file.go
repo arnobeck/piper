@@ -4,7 +4,9 @@ import (
 	"errors"
 	"os"
 	"time"
+	"github.com/djherbis/times"
 )
+// "syscall"
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
@@ -121,8 +123,17 @@ func (h *FileHandler) Size() uint64 {
 
 // ExpirationTime returns modified time of the file
 func (h *FileHandler) ExpirationTime() int64 {
-	fi, _ := os.Stat(h.path)
-	return fi.ModTime().Unix()
+	t, _ := times.Stat(h.path)
+	ctime := t.AccessTime()
+	if t.HasBirthTime() {
+		ctime = t.BirthTime()
+		// fi, _ := os.Stat(h.path)
+		// stat := fi.Sys().(*syscall.Stat_t)
+		// ctime := time.Unix(int64(stat.Ctim.Sec), int64(stat.Ctim.Nsec))
+	}
+	// file, _ := FTime(h.path)
+	// ctime := file.CTime
+	return ctime.Unix() + h.duration
 	// return h.etime
 }
 

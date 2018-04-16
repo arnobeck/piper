@@ -16,7 +16,8 @@ piper:
 
 deps:
 	git config --global http.https://pkg.re.followRedirects true
-	go get -d -v pkg.re/essentialkaos/ek.v9
+	go get -u pkg.re/essentialkaos/ek.v9
+	go get -u github.com/djherbis/times
 
 fmt:
 	find . -name "*.go" -exec gofmt -s -w {} \;
